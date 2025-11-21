@@ -10,8 +10,7 @@
 	},
 	"formatter": {
 		"enabled": true,
-		"indentStyle": "tab",
-		"lineWidth": 120
+		"indentStyle": "tab"
 	},
 	"linter": {
 		"enabled": true,
@@ -29,7 +28,12 @@
 						"groups": [
 							[":BUN:", ":NODE:"],
 							":BLANK_LINE:",
-							["@my/lib", "@my/lib/**", "!@my/lib/special", "!@my/lib/special/**"],
+							[
+								"@my/lib",
+								"@my/lib/**",
+								"!@my/lib/special",
+								"!@my/lib/special/**"
+							],
 							"@/**"
 						]
 					}

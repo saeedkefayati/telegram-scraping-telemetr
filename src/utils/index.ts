@@ -3,7 +3,9 @@ import translations from "../translation";
 
 export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-export async function translateArrayToEnglish(arr: string[]): Promise<string[]> {
+export async function translateArrayToEnglish(
+	arr: string[],
+): Promise<string[]> {
 	const translated: string[] = [];
 	for (const text of arr) {
 		try {

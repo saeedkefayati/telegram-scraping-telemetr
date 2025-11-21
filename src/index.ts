@@ -36,34 +36,58 @@ import { t } from "./utils";
 
 	// Channel Title & Description & Avatar
 	const elementTitle = await page.locator(".channel-inner__name").waitHandle();
-	const elementDescription = await page.locator(".channel__description").waitHandle();
-	const elementAvatar = await page.locator(".card-info__header-image .img-fluid").waitHandle();
-	const title: string | null = await elementTitle?.evaluate((el) => el.textContent?.trim());
-	const description: string | null = await elementDescription?.evaluate((el) => el.innerHTML?.trim());
-	const avatar: string | null = await elementAvatar?.evaluate((el) => el.getAttribute("src"));
+	const elementDescription = await page
+		.locator(".channel__description")
+		.waitHandle();
+	const elementAvatar = await page
+		.locator(".card-info__header-image .img-fluid")
+		.waitHandle();
+	const title: string | null = await elementTitle?.evaluate((el) =>
+		el.textContent?.trim(),
+	);
+	const description: string | null = await elementDescription?.evaluate((el) =>
+		el.innerHTML?.trim(),
+	);
+	const avatar: string | null = await elementAvatar?.evaluate((el) =>
+		el.getAttribute("src"),
+	);
 
 	// Descriptions for stats
-	const descriptions: string[] | null = await page.$$eval(".icon.icon-info.icon-tooltip", (options) =>
-		options.map((option) => option.getAttribute("data-original-title") ?? ""),
+	const descriptions: string[] | null = await page.$$eval(
+		".icon.icon-info.icon-tooltip",
+		(options) =>
+			options.map((option) => option.getAttribute("data-original-title") ?? ""),
 	);
 
 	// Statistics
-	const stats: string[] = await page.$$eval(".channel-inner__stat-item", (options) =>
-		options.map((option) => option.textContent?.trim() ?? ""),
+	const stats: string[] = await page.$$eval(
+		".channel-inner__stat-item",
+		(options) => options.map((option) => option.textContent?.trim() ?? ""),
 	);
 
 	// Subscribers & views & ER
-	const subscribers: string[] = await page.$$eval(".stat-col__data", (options) =>
-		options.map((option) => option.textContent?.trim().split(" ").join("") ?? ""),
+	const subscribers: string[] = await page.$$eval(
+		".stat-col__data",
+		(options) =>
+			options.map(
+				(option) => option.textContent?.trim().split(" ").join("") ?? "",
+			),
 	);
 
 	// Chart data
 	const charts: string | undefined = await page.$$eval("script", (scripts) =>
-		scripts.map((s) => s.textContent).find((t) => t?.includes("chartDataFirst")),
+		scripts
+			.map((s) => s.textContent)
+			.find((t) => t?.includes("chartDataFirst")),
 	);
-	const parseChartData = (script: string | undefined, varName: string): ChartData => {
+	const parseChartData = (
+		script: string | undefined,
+		varName: string,
+	): ChartData => {
 		if (!script) return null;
-		const regex = new RegExp(`${varName}\\s*=\\s*(\\{[\\s\\S]*?\\}|\\[[\\s\\S]*?\\])`);
+		const regex = new RegExp(
+			`${varName}\\s*=\\s*(\\{[\\s\\S]*?\\}|\\[[\\s\\S]*?\\])`,
+		);
 		const match = script.match(regex);
 		if (!match) return null;
 
@@ -81,15 +105,46 @@ import { t } from "./utils";
 	const posts = await page.$$eval(".post-card", (options) =>
 		options.map((option) => {
 			const created_at =
-				option.querySelector(".post-card__header-date")?.textContent.trim().split(" ").slice(2).join("") ?? "";
-			const views = option.querySelectorAll(".stats-list__item")[0]?.textContent.trim().split(" ").join("") ?? "";
-			const comments = option.querySelectorAll(".stats-list__item")[1]?.textContent.trim().split(" ").join("") ?? "";
-			const replies = option.querySelectorAll(".stats-list__item")[2]?.textContent.trim().split(" ").join("") ?? "";
-			const content = option.querySelector(".post-card__body-container")?.textContent.trim() ?? "";
-			const emojies = Array.from(option.querySelectorAll(".emotions-item")).map((el) => ({
-				emoji: el.querySelector(".emotions-item__emoji")?.textContent.trim() ?? "",
-				content: el.querySelector(".emotions-item__count")?.textContent.trim().split(" ").join("") ?? "",
-			}));
+				option
+					.querySelector(".post-card__header-date")
+					?.textContent.trim()
+					.split(" ")
+					.slice(2)
+					.join("") ?? "";
+			const views =
+				option
+					.querySelectorAll(".stats-list__item")[0]
+					?.textContent.trim()
+					.split(" ")
+					.join("") ?? "";
+			const comments =
+				option
+					.querySelectorAll(".stats-list__item")[1]
+					?.textContent.trim()
+					.split(" ")
+					.join("") ?? "";
+			const replies =
+				option
+					.querySelectorAll(".stats-list__item")[2]
+					?.textContent.trim()
+					.split(" ")
+					.join("") ?? "";
+			const content =
+				option
+					.querySelector(".post-card__body-container")
+					?.textContent.trim() ?? "";
+			const emojies = Array.from(option.querySelectorAll(".emotions-item")).map(
+				(el) => ({
+					emoji:
+						el.querySelector(".emotions-item__emoji")?.textContent.trim() ?? "",
+					content:
+						el
+							.querySelector(".emotions-item__count")
+							?.textContent.trim()
+							.split(" ")
+							.join("") ?? "",
+				}),
+			);
 
 			return { created_at, views, comments, replies, content, emojies };
 		}),
@@ -98,7 +153,9 @@ import { t } from "./utils";
 	// Read existing data
 	const DATA_FILE = path.resolve("./data.json");
 
-	const allData: DataType[] = fs.existsSync(DATA_FILE) ? JSON.parse(fs.readFileSync(DATA_FILE, "utf-8")) : [];
+	const allData: DataType[] = fs.existsSync(DATA_FILE)
+		? JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"))
+		: [];
 
 	// Update data
 	data.id = "";

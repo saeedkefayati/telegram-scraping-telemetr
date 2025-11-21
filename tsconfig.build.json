@@ -7,6 +7,12 @@
 		"removeComments": true,
 		"outDir": "dist"
 	},
-	"include": ["src"],
-	"exclude": ["tests", "dist", "**/*.test.ts"]
+	"include": [
+		"src"
+	],
+	"exclude": [
+		"tests",
+		"dist",
+		"**/*.test.ts"
+	]
 }
