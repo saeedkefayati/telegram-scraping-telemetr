@@ -570,8 +570,8 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  ws@8.18.3:
-    resolution: {integrity: sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==}
+  ws@8.23.0:
+    resolution: {integrity: sha512-wCkmX8QMOrKjgO8HW2WyDbTSGeqkocxgDzS9iR79rEAexty6/2qzilx3Ag8Tqf9ykop3irLKle0MtVn5qjVnoQ==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -1010,7 +1010,7 @@ snapshots:
       devtools-protocol: 0.0.1521046
       typed-query-selector: 2.12.0
       webdriver-bidi-protocol: 0.3.8
-      ws: 8.18.3
+      ws: 8.23.0
     transitivePeerDependencies:
       - bare-abort-controller
       - bare-buffer
@@ -1159,7 +1159,7 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  ws@8.18.3: {}
+  ws@8.23.0: {}
 
   y18n@5.0.8: {}
 
